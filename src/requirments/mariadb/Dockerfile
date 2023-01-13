@@ -1,7 +1,18 @@
 FROM debian:buster
 
-# apt-utils 없다고 warning나옴.
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y apt-utils mariadb-server
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y vim mariadb-server dumb-init expect
+
+ENV WP_DB_NAME		wpdb 
+ENV WP_ADMIN		dkim2
+ENV WP_ADMIN_PW		1q2w3e4r
+
+COPY ./tools/mysql_secure_installation_automation.sh /tmp/
+COPY ./tools/initial_db.sql /tmp/
+COPY ./tools/entrypoint.sh /tmp/
+
+RUN chmod +x /tmp/entrypoint.sh
+ENTRYPOINT ["dumb-init"]
+CMD ["/bin/sh", "-c", "/tmp/entrypoint.sh"]
 
 EXPOSE 3306
