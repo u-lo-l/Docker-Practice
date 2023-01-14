@@ -17,5 +17,5 @@ EXPOSE 443
 COPY ./conf/sample.conf /etc/nginx/sites-enabled/default
 RUN echo "HELLO INCEPTION" > /home/index.txt
 
-#ENTRYPOINT ["dumb-init"]
-#CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["dumb-init"]
+CMD ["nginx", "-g", "daemon off;"]

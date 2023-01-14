@@ -3,10 +3,6 @@ FROM debian:buster
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y vim mariadb-server dumb-init expect
 
-ENV WP_DB_NAME		wpdb 
-ENV WP_ADMIN		dkim2
-ENV WP_ADMIN_PW		1q2w3e4r
-
 COPY ./tools/mysql_secure_installation_automation.sh /tmp/
 COPY ./tools/initial_db.sql /tmp/
 COPY ./tools/entrypoint.sh /tmp/
