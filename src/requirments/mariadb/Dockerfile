@@ -10,7 +10,8 @@ COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./tools/entrypoint.sh /tmp/
 COPY ./tools/mysql_secure_installation_automation.sh /tmp/
 
-RUN chmod +x /tmp/entrypoint.sh
+RUN 	chmod +x /tmp/entrypoint.sh && \
+	chmod +x /tmp/mysql_secure_installation_automation.sh
 
 CMD ["/bin/bash"]
 #ENTRYPOINT ["/tmp/entrypoint.sh"]
