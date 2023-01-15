@@ -1,14 +1,16 @@
 FROM debian:buster
+EXPOSE 3306
 
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y vim mariadb-server dumb-init expect
+RUN	apt-get update && \
+	apt-get install -y mariadb-server && \
+	apt-get install -y vim && \
+	apt-get install -y procps
 
-COPY ./tools/mysql_secure_installation_automation.sh /tmp/
-COPY ./tools/initial_db.sql /tmp/
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 COPY ./tools/entrypoint.sh /tmp/
+COPY ./tools/mysql_secure_installation_automation.sh /tmp/
 
 RUN chmod +x /tmp/entrypoint.sh
-ENTRYPOINT ["dumb-init"]
-CMD ["/bin/sh", "-c", "/tmp/entrypoint.sh"]
 
-EXPOSE 3306
+CMD ["/bin/bash"]
+#ENTRYPOINT ["/tmp/entrypoint.sh"]

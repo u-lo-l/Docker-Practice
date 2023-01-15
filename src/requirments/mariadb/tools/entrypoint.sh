@@ -1,11 +1,23 @@
 #!/bin/sh
 
-service mysql start
-sh /tmp/mysql_secure_installation_automation.sh
+set -e;
+echo "Entrypoint start"
+if [ ! -d $DB_PATH/$DB_NAME ]
+then
+	service mysql start; sleep 1;
+	echo "  creating db"
+	mariadb -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+	echo "  creating user"
+	mariadb -u root -e "CREATE USER IF NOT EXISTS '$MARIA_USER'@'%' IDENTIFIED BY '$MARIA_PW';"
+	echo "  grant privilieges"
+	mariadb -u root -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$MARIA_USER'@'%' WITH GRANT OPTION;"
+	echo "  flush privilieges"
+	mariadb -u root -e "FLUSH PRIVILEGES;"
 
-sed -i s/'$WP_DB_NAME'/$WP_DB_NAME/g /tmp/initial_db.sql
-sed -i s/'$DB_ADMIN_PASSWORD'/$DB_ADMIN_PASSWORD/g /tmp/initial_db.sql
-sed -i s/'$DB_ADMIN'/$DB_ADMIN/g /tmp/initial_db.sql
+	service mysql stop; sleep 1;
+else
+	echo "\033[3;34mTarget database already exist :( \033[0m";
+fi
 
-mariadb < /tmp/initial_db.sql
-#mysqld
+echo "Entrypoint done"
+exec $@;

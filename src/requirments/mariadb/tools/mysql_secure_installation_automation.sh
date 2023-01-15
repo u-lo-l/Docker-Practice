@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apt install -y expect
+apt-get install -y expect
 
 SECURE_MYSQL=$(expect -c "
 set timeout 3
@@ -22,5 +22,5 @@ expect eof
 
 echo "$SECURE_MYSQL"
 
-apt purge -y expect
-apt autoremove -y
+apt-get purge -y expect
+apt-get autoremove -y
