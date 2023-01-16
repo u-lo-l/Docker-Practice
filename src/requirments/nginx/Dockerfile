@@ -18,5 +18,4 @@ RUN	openssl req -x509 -newkey rsa:2048 -nodes\
 
 COPY ./conf/sample.conf /etc/nginx/sites-enabled/default
 
-#ENTRYPOINT ["dumb-init"]
-#CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

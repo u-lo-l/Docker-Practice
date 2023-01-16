@@ -8,15 +8,18 @@ RUN	apt-get update && \
 	echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list && \
 	apt-get update
 
-RUN	apt-get install -y php8.1 php8.1-fpm php8.1-mysqli php8.1-mysql && \
+RUN	apt-get install -y php8.1 php8.1-fpm php8.1-mysqli php8.1-mysql php8.1-gd && \
 	apt-get install -y mariadb-client
 
 RUN	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 	chmod +x wp-cli.phar && \
 	mv wp-cli.phar /usr/local/bin/wp
 
+COPY	./conf/burger.jpg /tmp/
 COPY	./conf/www.conf /etc/php/8.1/fpm/pool.d/
 COPY	./tools/entrypoint.sh /tmp/
 RUN	chmod +x /tmp/entrypoint.sh
 
-#ENTRYPOINT ["/tmp/entrypoint.sh"]
+ENTRYPOINT ["/tmp/entrypoint.sh"]
+CMD ["php-fpm8.1", "-F"]
+#CMD ["/bin/bash"]

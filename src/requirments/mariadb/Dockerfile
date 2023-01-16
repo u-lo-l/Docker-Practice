@@ -13,5 +13,6 @@ COPY ./tools/mysql_secure_installation_automation.sh /tmp/
 RUN 	chmod +x /tmp/entrypoint.sh && \
 	chmod +x /tmp/mysql_secure_installation_automation.sh
 
-CMD ["/bin/bash"]
-#ENTRYPOINT ["/tmp/entrypoint.sh"]
+ENTRYPOINT ["/tmp/entrypoint.sh"]
+#CMD ["/bin/bash"]
+CMD ["mysqld_safe"]

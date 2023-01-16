@@ -1,6 +1,5 @@
 #!/bin/sh
 
-set -e
 
 if [ ! -f $WP_PATH/wp-config.php ]
 then
@@ -32,12 +31,26 @@ then
 				--path="$WP_PATH" \
 				--allow-root;
 	echo "  wp user created"
-
+	
 	chown -R www-data:www-data /var/www/*
 	chmod -R 755 /var/www/html/wordpress
+	echo "  priviliege changed"
 
 	service php8.1-fpm stop
 else
 	echo "\033[3;33mWordPress is already installed\033[0m"
 fi
+
+echo "  configuring wordpress"
+service php8.1-fpm start
+
+wp theme install hestia --path=$WP_PATH \
+                        --allow-root
+
+wp theme activate hestia --path=$WP_PATH \
+                         --allow-root
+
+service php8.1-fpm stop
+
+exec $@
 
