@@ -17,11 +17,15 @@ RUN	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	chmod +x wp-cli.phar && \
 	mv wp-cli.phar /usr/local/bin/wp
 
-# COPY	./conf/burger.jpg /tmp/
 COPY	./conf/www.conf /etc/php/8.1/fpm/pool.d/
+COPY	./conf/icecream.png /var/www/html/wordpress/wp-content/uploads/2023/01/
+
+COPY	./tools/healthcheck.sh /tmp/
 COPY	./tools/entrypoint.sh /tmp/
+
 RUN	chmod +x /tmp/entrypoint.sh
+RUN	chmod +x /tmp/healthcheck.sh
 
 ENTRYPOINT ["/tmp/entrypoint.sh"]
 CMD ["php-fpm8.1", "-F"]
-# CMD ["/bin/bash"]
+

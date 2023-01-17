@@ -18,7 +18,7 @@ $(NAME):
 	@ echo "=> $(G) $(VOL_PATH)/wp_vol created$(E)";
 	@ sudo mkdir -p $(VOL_PATH)/db_vol;
 	@ echo "=> $(G) $(VOL_PATH)/db_vol created$(E)"
-#	@ sudo docker compose -f $(COMPOSE) -p $(NAME) build -q
+	@ sudo docker compose -f $(COMPOSE) -p $(NAME) build 
 	@ echo "=> $(G) build done $(E)";
 	@ sudo docker compose -f $(COMPOSE) -p $(NAME) up -d
 	@ echo "=> $(G) services ready$(E)"
@@ -27,13 +27,10 @@ down:
 						--volumes \
 						--remove-orphans
 
-clean:
+clean: down
 	@ echo -n "$(R)"
 	@ echo "  deleting $(VOL_PATH) $(E)"
 	@ sudo rm -rf $(VOL_PATH)
-	echo $(CURR_IMAGES)
-	@ echo "  deleting $(sudo docker images -aq)"
-	@ sudo docker rmi $(sudo docker images -qa) -f
 	@ echo "  deleting unsing data"
 	@ sudo docker system prune -af
 	@ echo -n "$(E)"
