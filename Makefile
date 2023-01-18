@@ -9,11 +9,9 @@ VOL_PATH = /home/dkim2/data
 
 CURR_IMAGES = $(sudo docker images -aq)
 
-.PHONY: up down clean re
+.PHONY: up down restart clean
 
-up : $(NAME)
-
-$(NAME):
+up :
 	@ sudo mkdir -p $(VOL_PATH)/wp_vol;
 	@ echo "=> $(G) $(VOL_PATH)/wp_vol created$(E)";
 	@ sudo mkdir -p $(VOL_PATH)/db_vol;
@@ -26,12 +24,15 @@ down:
 	@ sudo docker compose -f $(COMPOSE) -p $(NAME) down \
 						--volumes \
 						--remove-orphans
+restart: down up
 
 clean: down
 	@ echo -n "$(R)"
-	@ echo "  deleting $(VOL_PATH) $(E)"
 	@ sudo rm -rf $(VOL_PATH)
-	@ echo "  deleting unsing data"
-	@ sudo docker system prune -af
+	@ echo "  $(VOL_PATH) deleted"
+	@ sudo docker system prune -af > /dev/null
+	@ echo "  unsing data delete"
+	@ echo "  all service contents deleted"
 	@ echo -n "$(E)"
+
 re: clean up
