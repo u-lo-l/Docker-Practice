@@ -17,6 +17,6 @@ https://dkim2.notion.site/inception-e7caf209c1804298a7f85c99bd52b398
 
 
 # TODO
-[] 각 독립적인 container 생성
-[] docker-network 연결
-[] docker-volume 연결
+[x] 각 독립적인 container 생성
+[x] docker-network 연결
+[x] docker-volume 연결
