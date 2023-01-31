@@ -1,4 +1,4 @@
-# ft_Inception
+# Docker Practice
 - preview
 ![image](https://user-images.githubusercontent.com/60467872/213126506-d7f3c655-8ffc-4705-a0f9-b9ba818ec4fc.png)
 - notion
